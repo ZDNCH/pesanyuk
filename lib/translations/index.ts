@@ -1,6 +1,6 @@
 import { useTranslationStore, translationCache } from './store';
 import { TranslationOptionsSchema, type TranslationOptions, type Language } from './types';
-import { translations } from './content';
+import { useEffect } from 'react';
 
 /**
  * Custom error for translation-related issues
@@ -13,10 +13,22 @@ export class TranslationError extends Error {
 }
 
 /**
- * Hook for accessing translations with automatic error handling and caching
+ * Hook for accessing translations with automatic database integration
  */
 export function useTranslation() {
-  const { language, provider } = useTranslationStore();
+  const { 
+    language, 
+    provider,
+    translations,
+    isLoading,
+    error,
+    loadTranslations 
+  } = useTranslationStore();
+
+  // Load translations when language changes
+  useEffect(() => {
+    loadTranslations(language);
+  }, [language]);
   
   /**
    * Translate a key into the current language
@@ -27,7 +39,7 @@ export function useTranslation() {
    */
   const t = (
     key: string,
-    section: keyof typeof translations = 'common',
+    section: string = 'common',
     options: TranslationOptions = {}
   ): string => {
     try {
@@ -47,17 +59,21 @@ export function useTranslation() {
       
       // Navigate through translation object
       const keys = key.split('.');
-      let result = translations[section][language];
+      let result = translations[section];
+      
+      if (!result) {
+        throw new TranslationError(`Section not found: ${section}`);
+      }
       
       for (const k of keys) {
-        if (result[k] === undefined) {
+        if (!result || result[k] === undefined) {
           throw new TranslationError(`Translation not found for key: ${key}`);
         }
         result = result[k];
       }
       
       // Cache result if enabled
-      if (cacheKey) {
+      if (cacheKey && typeof result === 'string') {
         translationCache.set(cacheKey, result, provider);
       }
       
@@ -73,7 +89,7 @@ export function useTranslation() {
     }
   };
 
-  return { t, language };
+  return { t, language, isLoading, error };
 }
 
 // Re-export types and utilities

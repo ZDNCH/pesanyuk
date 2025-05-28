@@ -12,7 +12,6 @@ import {
   Info
 } from "lucide-react";
 import { ModeToggle } from "@/components/mode-toggle";
-import { LanguageSwitcher } from "@/components/language-switcher";
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);

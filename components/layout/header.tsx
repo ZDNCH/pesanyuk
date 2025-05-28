@@ -4,8 +4,15 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { ShoppingCart, Menu, X, Home, Utensils, Users, Phone, Sun, Moon } from "lucide-react";
+import {
+  Menu,
+  X,
+  Home,
+  Sofa,
+  Info
+} from "lucide-react";
 import { ModeToggle } from "@/components/mode-toggle";
+import { LanguageSwitcher } from "@/components/language-switcher";
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -20,6 +27,8 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const closeMenu = () => setIsMobileMenuOpen(false);
+
   return (
     <header
       className={cn(
@@ -29,104 +38,100 @@ export default function Header() {
           : "bg-transparent py-4"
       )}
     >
-      <div className="container flex items-center justify-between">
-        <Link 
-          href="/" 
-          className="text-2xl font-bold flex items-center gap-2"
+      <div className="container mx-auto px-4 flex items-center justify-between min-h-[64px]">
+        {/* Logo */}
+        <Link
+          href="/"
+          className="text-xl sm:text-2xl font-bold flex items-center gap-2"
+          onClick={closeMenu}
         >
-          <Utensils className="h-6 w-6" />
-          <span>Pesan Yuk</span>
+          <Sofa className="h-5 w-5 sm:h-6 sm:w-6" />
+          <span>Furniro</span>
         </Link>
 
-        {/* Desktop Navigation */}
+        {/* Desktop Menu */}
         <nav className="hidden md:flex items-center space-x-1">
-          <Link href="/" className="px-3 py-2 text-sm font-medium rounded-md hover:bg-accent">
+          <Link
+            href="/"
+            className="px-3 py-2 text-sm font-medium rounded-md hover:bg-accent transition-colors"
+          >
             Beranda
           </Link>
-          <Link href="/katalog" className="px-3 py-2 text-sm font-medium rounded-md hover:bg-accent">
+          <Link
+            href="/katalog"
+            className="px-3 py-2 text-sm font-medium rounded-md hover:bg-accent transition-colors"
+          >
             Katalog
           </Link>
-          <Link href="/tim" className="px-3 py-2 text-sm font-medium rounded-md hover:bg-accent">
-            Tim Kami
-          </Link>
-          <Link href="/kontak" className="px-3 py-2 text-sm font-medium rounded-md hover:bg-accent">
-            Kontak
+          <Link
+            href="/tentang"
+            className="flex items-center px-3 py-2 text-sm font-medium rounded-md hover:bg-accent transition-colors"
+          >
+            Tentang Kami
           </Link>
         </nav>
 
+        {/* Desktop Right Section */}
         <div className="hidden md:flex items-center space-x-4">
+          <LanguageSwitcher />
           <ModeToggle />
-          <Button variant="outline" size="icon">
-            <ShoppingCart className="h-5 w-5" />
-          </Button>
-          <Button>Pesan Sekarang</Button>
+          <Button>Konsultasi Gratis</Button>
         </div>
 
         {/* Mobile Menu Button */}
-        <div className="flex items-center md:hidden gap-2">
+        <div className="flex md:hidden items-center gap-2">
           <ModeToggle />
-          <Button variant="outline" size="icon">
-            <ShoppingCart className="h-5 w-5" />
-          </Button>
-          <Button 
-            variant="ghost" 
-            size="icon" 
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-10 w-10"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
-            {isMobileMenuOpen ? (
-              <X className="h-6 w-6" />
-            ) : (
-              <Menu className="h-6 w-6" />
-            )}
+            {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </Button>
         </div>
       </div>
 
       {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 right-0 bg-background/95 backdrop-blur-md shadow-md p-4">
-          <nav className="flex flex-col space-y-2">
-            <Link 
-              href="/" 
-              className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-accent"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              <Home className="h-4 w-4" />
-              <span>Beranda</span>
-            </Link>
-            <Link 
-              href="/katalog" 
-              className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-accent"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              <Utensils className="h-4 w-4" />
-              <span>Katalog</span>
-            </Link>
-            <Link 
-              href="/tim" 
-              className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-accent"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              <Users className="h-4 w-4" />
-              <span>Tim Kami</span>
-            </Link>
-            <Link 
-              href="/kontak" 
-              className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-accent"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              <Phone className="h-4 w-4" />
-              <span>Kontak</span>
-            </Link>
-            <Button 
-              className="w-full mt-2"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Pesan Sekarang
-            </Button>
-          </nav>
-        </div>
-      )}
+      <div
+        className={cn(
+          "md:hidden fixed inset-x-0 top-[64px] bg-background/95 backdrop-blur-md shadow-md transition-transform duration-300 ease-in-out z-40",
+          isMobileMenuOpen
+            ? "translate-y-0 opacity-100 pointer-events-auto"
+            : "-translate-y-full opacity-0 pointer-events-none"
+        )}
+      >
+        <nav className="container mx-auto px-4 py-4 flex flex-col space-y-2">
+          <Link
+            href="/"
+            className="flex items-center gap-2 px-4 py-3 rounded-md hover:bg-accent"
+            onClick={closeMenu}
+          >
+            <Home className="h-4 w-4" />
+            <span>Beranda</span>
+          </Link>
+          <Link
+            href="/katalog"
+            className="flex items-center gap-2 px-4 py-3 rounded-md hover:bg-accent"
+            onClick={closeMenu}
+          >
+            <Sofa className="h-4 w-4" />
+            <span>Katalog</span>
+          </Link>
+          <Link
+            href="/tentang"
+            className="flex items-center gap-2 px-4 py-3 rounded-md hover:bg-accent"
+            onClick={closeMenu}
+          >
+            <Info className="h-4 w-4" />
+            <span>Tentang Kami</span>
+          </Link>
+          <div className="mt-4 flex items-center gap-4 px-4">
+            <LanguageSwitcher />
+            <Button className="flex-1">Konsultasi Gratis</Button>
+          </div>
+        </nav>
+      </div>
     </header>
   );
 }

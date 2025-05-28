@@ -8,31 +8,31 @@ import { Card, CardContent } from "@/components/ui/card";
 const categories = [
   {
     id: 1,
-    name: "Makanan Utama",
-    description: "Hidangan utama yang mengenyangkan",
-    icon: "🍛",
-    image: "https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    name: "Living Room",
+    description: "Elegant and comfortable furniture for your living space",
+    icon: "🛋️",
+    image: "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg",
   },
   {
     id: 2,
-    name: "Makanan Ringan",
-    description: "Camilan lezat untuk berbagai suasana",
-    icon: "🍢",
-    image: "https://images.pexels.com/photos/1618917/pexels-photo-1618917.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    name: "Bedroom",
+    description: "Peaceful and stylish bedroom furniture collections",
+    icon: "🛏️",
+    image: "https://images.pexels.com/photos/1648776/pexels-photo-1648776.jpeg",
   },
   {
     id: 3,
-    name: "Minuman",
-    description: "Berbagai minuman segar dan menyehatkan",
-    icon: "🥤",
-    image: "https://images.pexels.com/photos/452737/pexels-photo-452737.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    name: "Dining Room",
+    description: "Beautiful dining sets for memorable gatherings",
+    icon: "🪑",
+    image: "https://images.pexels.com/photos/1080696/pexels-photo-1080696.jpeg",
   },
   {
     id: 4,
-    name: "Makanan Penutup",
-    description: "Hidangan manis untuk penutup santap",
-    icon: "🍰",
-    image: "https://images.pexels.com/photos/1126359/pexels-photo-1126359.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    name: "Office",
+    description: "Professional furniture for productive workspaces",
+    icon: "💼",
+    image: "https://images.pexels.com/photos/1957477/pexels-photo-1957477.jpeg",
   },
 ];
 
@@ -57,9 +57,9 @@ export default function CategoryShowcase() {
     <section className="py-24 w-full">
       <div className="container">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl font-bold mb-4">Kategori Makanan</h2>
+          <h2 className="text-3xl font-bold mb-4">Our Services</h2>
           <p className="text-muted-foreground">
-            Jelajahi berbagai kategori makanan lezat yang kami tawarkan untuk memenuhi selera Anda.
+            Explore our comprehensive range of furniture and interior design services tailored to your needs.
           </p>
         </div>
 

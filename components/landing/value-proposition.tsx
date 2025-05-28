@@ -1,28 +1,28 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Clock, Truck, Award, ShieldCheck } from "lucide-react";
+import { Truck, PenTool, Paintbrush, Shield } from "lucide-react";
 
 const features = [
   {
-    icon: <Clock className="h-10 w-10" />,
-    title: "Pengiriman Cepat",
-    description: "Pesanan Anda akan diantar dengan cepat ke lokasi tujuan, masih hangat dan lezat."
-  },
-  {
     icon: <Truck className="h-10 w-10" />,
-    title: "Gratis Ongkir",
-    description: "Nikmati gratis biaya pengiriman untuk pesanan di atas Rp100.000 dalam radius 5km."
+    title: "Free Delivery",
+    description: "Free shipping on all orders over $1000 within our service area."
   },
   {
-    icon: <Award className="h-10 w-10" />,
-    title: "Kualitas Terjamin",
-    description: "Semua makanan dibuat dengan bahan berkualitas dan diolah dengan standar kebersihan yang ketat."
+    icon: <PenTool className="h-10 w-10" />,
+    title: "Professional Assembly",
+    description: "Expert furniture assembly service included with your purchase."
   },
   {
-    icon: <ShieldCheck className="h-10 w-10" />,
-    title: "Pembayaran Aman",
-    description: "Berbagai metode pembayaran yang aman dan terpercaya untuk kenyamanan Anda."
+    icon: <Paintbrush className="h-10 w-10" />,
+    title: "Custom Design",
+    description: "Personalized interior design service to match your style and needs."
+  },
+  {
+    icon: <Shield className="h-10 w-10" />,
+    title: "5-Year Warranty",
+    description: "All our furniture comes with a comprehensive 5-year warranty."
   }
 ];
 
@@ -47,9 +47,9 @@ export default function ValueProposition() {
     <section className="py-24 w-full bg-gradient-to-b from-background to-muted/30">
       <div className="container">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl font-bold mb-4">Mengapa Memilih Kami?</h2>
+          <h2 className="text-3xl font-bold mb-4">Why Choose Furniro?</h2>
           <p className="text-muted-foreground">
-            Kami berkomitmen memberikan pengalaman pesan antar makanan terbaik dengan keunggulan-keunggulan berikut.
+            We offer more than just furniture - we provide complete solutions for your perfect living space.
           </p>
         </div>
 

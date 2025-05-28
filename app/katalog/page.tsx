@@ -9,9 +9,9 @@ export const metadata: Metadata = {
 
 export default function KatalogPage() {
   return (
-    <main className="flex min-h-screen flex-col items-center pt-24">
+    <div className="w-full pt-24">
       <div className="w-full py-8 bg-muted/30">
-        <div className="container">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col space-y-2">
             <h1 className="text-3xl font-bold">Katalog Menu</h1>
             <div className="flex items-center text-sm text-muted-foreground">
@@ -25,6 +25,6 @@ export default function KatalogPage() {
         </div>
       </div>
       <ProductCatalog />
-    </main>
+    </div>
   );
 }

@@ -18,32 +18,32 @@ const testimonials = [
     id: 1,
     name: "Budi Santoso",
     role: "Pelanggan Setia",
-    testimonial: "Makanan selalu datang tepat waktu dan masih hangat. Pelayanan sangat memuaskan dan pilihan menu sangat beragam.",
-    avatar: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    testimonial: "Kualitas furnitur yang luar biasa dan layanan desain interior yang sangat profesional. Sangat membantu dalam mewujudkan ruang impian saya.",
+    avatar: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg",
     rating: 5,
   },
   {
     id: 2,
     name: "Siti Nurhaliza",
-    role: "Food Blogger",
-    testimonial: "Sebagai food blogger, saya sangat merekomendasikan Pesan Yuk. Kualitas makanan terjaga dan presentasi makanan sangat menarik.",
-    avatar: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    role: "Interior Designer",
+    testimonial: "Sebagai desainer interior, saya sangat merekomendasikan Furniro. Koleksi furnitur mereka berkualitas tinggi dan pelayanan yang diberikan sangat memuaskan.",
+    avatar: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg",
     rating: 5,
   },
   {
     id: 3,
     name: "Dimas Prakoso",
-    role: "Mahasiswa",
-    testimonial: "Sebagai mahasiswa, saya sangat terbantu dengan adanya promo menarik. Porsi makanan juga sesuai dengan harga yang ditawarkan.",
-    avatar: "https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    role: "Pemilik Apartemen",
+    testimonial: "Furniro membantu saya mendesain ulang apartemen dengan hasil yang menakjubkan. Tim desainer mereka sangat memahami kebutuhan dan gaya yang saya inginkan.",
+    avatar: "https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg",
     rating: 4,
   },
   {
     id: 4,
     name: "Rina Wijaya",
-    role: "Ibu Rumah Tangga",
-    testimonial: "Pesan Yuk memudahkan saya yang sibuk mengurus anak. Proses pemesanan mudah dan cepat dengan tampilan aplikasi yang user-friendly.",
-    avatar: "https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    role: "Pengusaha",
+    testimonial: "Proses konsultasi yang mudah dan hasil yang memuaskan. Furnitur custom yang saya pesan sesuai dengan ekspektasi dan kualitasnya terjamin.",
+    avatar: "https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg",
     rating: 5,
   },
 ];
@@ -64,9 +64,9 @@ export default function TestimonialSection() {
     <section className="py-24 w-full bg-muted/30">
       <div className="container">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl font-bold mb-4">Apa Kata Pelanggan Kami</h2>
+          <h2 className="text-3xl font-bold mb-4">Testimoni Klien Kami</h2>
           <p className="text-muted-foreground">
-            Ribuan pelanggan telah mempercayai layanan kami. Berikut adalah beberapa testimoni dari mereka.
+            Dengarkan langsung dari klien yang telah mempercayakan ruang mereka kepada kami.
           </p>
         </div>
 
@@ -76,11 +76,14 @@ export default function TestimonialSection() {
               setActiveIndex(api.selectedScrollSnap());
             });
           }}
-          className="w-full max-w-5xl mx-auto"
+          className="w-full max-w-full mx-auto px-4 sm:px-6 lg:px-8"
         >
           <CarouselContent>
-            {testimonials.map((testimonial, index) => (
-              <CarouselItem key={testimonial.id} className="md:basis-1/2 lg:basis-1/2">
+            {testimonials.map((testimonial) => (
+              <CarouselItem
+                key={testimonial.id}
+                className="flex-shrink-0 basis-full sm:basis-1/2 lg:basis-1/3 px-2"
+              >
                 <Card className="border border-border/50 h-full">
                   <CardContent className="p-6 flex flex-col h-full">
                     <div className="flex items-center mb-6">
@@ -108,6 +111,7 @@ export default function TestimonialSection() {
               </CarouselItem>
             ))}
           </CarouselContent>
+
           <div className="flex justify-center mt-8">
             <CarouselPrevious className="static transform-none mr-2" />
             <div className="flex space-x-2 mx-4">
@@ -115,7 +119,7 @@ export default function TestimonialSection() {
                 <motion.div
                   key={index}
                   className={`w-2 h-2 rounded-full ${
-                    activeIndex === index ? "bg-primary" : "bg-muted-foreground/30"
+                    activeIndex === index ? "bg-primary w-4" : "bg-muted-foreground/30"
                   }`}
                   animate={{
                     scale: activeIndex === index ? 1.2 : 1,

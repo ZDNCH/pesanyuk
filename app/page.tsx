@@ -9,13 +9,13 @@ import CTASection from "@/components/landing/cta-section";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center">
+    <div className="w-full">
       <HeroSection />
       <ValueProposition />
       <FeaturedProducts />
       <CategoryShowcase />
       <TestimonialSection />
       <CTASection />
-    </main>
+    </div>
   );
 }

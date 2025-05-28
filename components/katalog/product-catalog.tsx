@@ -1,157 +1,155 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Star, Search, Plus, Filter, SlidersHorizontal } from "lucide-react";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+import { Star, Search, Plus, Filter, SlidersHorizontal, ShoppingCart, Minus, Trash2 } from "lucide-react";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { toast } from "sonner";
 
-// Dummy data for products
+// Data produk furniture
 const products = [
   {
     id: 1,
-    name: "Nasi Goreng Spesial",
-    description: "Nasi goreng dengan telur, ayam, dan sayuran segar",
-    price: 35000,
+    name: "Sofa Modern Minimalis",
+    description: "Sofa nyaman dengan desain minimalis untuk ruang tamu modern",
+    price: 8500000,
     rating: 4.8,
     reviewCount: 124,
-    image: "https://images.pexels.com/photos/723198/pexels-photo-723198.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    image: "https://images.pexels.com/photos/1866149/pexels-photo-1866149.jpeg",
     badge: "Terlaris",
-    category: "Makanan Utama",
-    restaurant: "Warung Pak Jono"
+    category: "Ruang Tamu",
+    brand: "Furniro Living"
   },
   {
     id: 2,
-    name: "Ayam Bakar Madu",
-    description: "Ayam bakar dengan saus madu spesial dan lalapan",
-    price: 45000,
+    name: "Tempat Tidur Skandinavia",
+    description: "Tempat tidur gaya Skandinavia dengan bahan kayu solid",
+    price: 12500000,
     rating: 4.7,
     reviewCount: 98,
-    image: "https://images.pexels.com/photos/2338407/pexels-photo-2338407.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    badge: "Favorit",
-    category: "Makanan Utama",
-    restaurant: "Rumah Makan Sederhana"
+    image: "https://images.pexels.com/photos/1743229/pexels-photo-1743229.jpeg",
+    badge: "Premium",
+    category: "Kamar Tidur",
+    brand: "Nordic Sleep"
   },
   {
     id: 3,
-    name: "Sate Ayam",
-    description: "Sate ayam dengan bumbu kacang khas Indonesia",
-    price: 30000,
+    name: "Set Meja Makan Modern",
+    description: "Set meja makan modern dengan 6 kursi, cocok untuk keluarga",
+    price: 15000000,
     rating: 4.9,
     reviewCount: 156,
-    image: "https://images.pexels.com/photos/2313686/pexels-photo-2313686.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    image: "https://images.pexels.com/photos/1813502/pexels-photo-1813502.jpeg",
     badge: "Rekomendasi",
-    category: "Makanan Ringan",
-    restaurant: "Sate Madura Pak Slamet"
+    category: "Ruang Makan",
+    brand: "Dining Elegance"
   },
   {
     id: 4,
-    name: "Es Teh Manis",
-    description: "Teh manis dingin dengan es batu yang menyegarkan",
-    price: 10000,
+    name: "Lemari Pakaian Custom",
+    description: "Lemari pakaian dengan desain custom dan storage maksimal",
+    price: 9500000,
     rating: 4.6,
     reviewCount: 87,
-    image: "https://images.pexels.com/photos/792613/pexels-photo-792613.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    badge: "Minuman",
-    category: "Minuman",
-    restaurant: "Kedai Minuman Segar"
+    image: "https://images.pexels.com/photos/5824901/pexels-photo-5824901.jpeg",
+    badge: "Custom",
+    category: "Storage",
+    brand: "Custom Living"
   },
   {
     id: 5,
-    name: "Mie Goreng Jawa",
-    description: "Mie goreng dengan bumbu khas Jawa yang lezat",
-    price: 28000,
+    name: "Meja Kerja Ergonomis",
+    description: "Meja kerja dengan desain ergonomis untuk produktivitas maksimal",
+    price: 4500000,
     rating: 4.5,
-    reviewCount: 112,
-    image: "https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    category: "Makanan Utama",
-    restaurant: "Warung Mie Enak"
+    reviewCount: 92,
+    image: "https://images.pexels.com/photos/3740200/pexels-photo-3740200.jpeg",
+    category: "Ruang Kerja",
+    brand: "Work Comfort"
   },
   {
     id: 6,
-    name: "Bakso Sapi Spesial",
-    description: "Bakso daging sapi pilihan dengan kuah gurih",
-    price: 32000,
+    name: "Rak Buku Modular",
+    description: "Rak buku modular yang bisa disesuaikan dengan kebutuhan",
+    price: 3200000,
     rating: 4.7,
     reviewCount: 134,
-    image: "https://images.pexels.com/photos/4147875/pexels-photo-4147875.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    image: "https://images.pexels.com/photos/1090638/pexels-photo-1090638.jpeg",
     badge: "Populer",
-    category: "Makanan Utama",
-    restaurant: "Bakso Pak Didi"
+    category: "Storage",
+    brand: "Modern Storage"
   },
   {
     id: 7,
-    name: "Jus Alpukat",
-    description: "Jus alpukat segar dengan susu kental manis",
-    price: 15000,
+    name: "Kursi Santai",
+    description: "Kursi santai dengan bahan premium untuk kenyamanan maksimal",
+    price: 5500000,
     rating: 4.8,
     reviewCount: 78,
-    image: "https://images.pexels.com/photos/775031/pexels-photo-775031.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    category: "Minuman",
-    restaurant: "Kedai Minuman Segar"
+    image: "https://images.pexels.com/photos/1350789/pexels-photo-1350789.jpeg",
+    category: "Ruang Tamu",
+    brand: "Comfort Plus"
   },
   {
     id: 8,
-    name: "Martabak Manis",
-    description: "Martabak manis dengan berbagai topping pilihan",
-    price: 50000,
+    name: "Set Ruang Tamu Lengkap",
+    description: "Set ruang tamu lengkap dengan meja dan sofa premium",
+    price: 25000000,
     rating: 4.9,
     reviewCount: 189,
-    image: "https://images.pexels.com/photos/2280545/pexels-photo-2280545.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    image: "https://images.pexels.com/photos/1571463/pexels-photo-1571463.jpeg",
     badge: "Best Seller",
-    category: "Makanan Penutup",
-    restaurant: "Martabak Nikmat"
+    category: "Ruang Tamu",
+    brand: "Living Luxe"
   },
 ];
 
 const categories = [
-  { id: "makanan-utama", name: "Makanan Utama" },
-  { id: "makanan-ringan", name: "Makanan Ringan" },
-  { id: "minuman", name: "Minuman" },
-  { id: "makanan-penutup", name: "Makanan Penutup" },
+  { id: "ruang-tamu", name: "Ruang Tamu" },
+  { id: "kamar-tidur", name: "Kamar Tidur" },
+  { id: "ruang-makan", name: "Ruang Makan" },
+  { id: "ruang-kerja", name: "Ruang Kerja" },
+  { id: "storage", name: "Storage" },
 ];
 
-const restaurants = [
-  { id: "warung-pak-jono", name: "Warung Pak Jono" },
-  { id: "rumah-makan-sederhana", name: "Rumah Makan Sederhana" },
-  { id: "sate-madura-pak-slamet", name: "Sate Madura Pak Slamet" },
-  { id: "kedai-minuman-segar", name: "Kedai Minuman Segar" },
-  { id: "warung-mie-enak", name: "Warung Mie Enak" },
-  { id: "bakso-pak-didi", name: "Bakso Pak Didi" },
-  { id: "martabak-nikmat", name: "Martabak Nikmat" },
+const brands = [
+  { id: "furniro-living", name: "Furniro Living" },
+  { id: "nordic-sleep", name: "Nordic Sleep" },
+  { id: "dining-elegance", name: "Dining Elegance" },
+  { id: "custom-living", name: "Custom Living" },
+  { id: "work-comfort", name: "Work Comfort" },
+  { id: "modern-storage", name: "Modern Storage" },
+  { id: "comfort-plus", name: "Comfort Plus" },
+  { id: "living-luxe", name: "Living Luxe" },
 ];
+
+// Cart type definitions
+interface CartItem {
+  id: number;
+  name: string;
+  price: number;
+  quantity: number;
+}
 
 export default function ProductCatalog() {
   const searchParams = useSearchParams();
-  const router = useRouter();
-  
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("");
-  const [selectedRestaurants, setSelectedRestaurants] = useState<string[]>([]);
+  const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState("popularity");
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [isLoading, setIsLoading] = useState(true);
+  const [cart, setCart] = useState<CartItem[]>([]);
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   // Initialize filters from URL params
   useEffect(() => {
@@ -185,10 +183,10 @@ export default function ProductCatalog() {
       result = result.filter((product) => product.category === selectedCategory);
     }
     
-    // Apply restaurant filter
-    if (selectedRestaurants.length > 0) {
+    // Apply brand filter
+    if (selectedBrands.length > 0) {
       result = result.filter((product) => 
-        selectedRestaurants.includes(product.restaurant)
+        selectedBrands.includes(product.brand)
       );
     }
     
@@ -209,16 +207,41 @@ export default function ProductCatalog() {
     }
     
     setFilteredProducts(result);
-  }, [searchQuery, selectedCategory, selectedRestaurants, sortBy]);
+  }, [searchQuery, selectedCategory, selectedBrands, sortBy]);
 
-  const toggleRestaurant = (restaurantName: string) => {
-    setSelectedRestaurants((prev) => {
-      if (prev.includes(restaurantName)) {
-        return prev.filter((r) => r !== restaurantName);
-      } else {
-        return [...prev, restaurantName];
+  // Cart functions
+  const addToCart = (product: typeof products[0]) => {
+    setCart(prevCart => {
+      const existingItem = prevCart.find(item => item.id === product.id);
+      if (existingItem) {
+        return prevCart.map(item =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
       }
+      return [...prevCart, { id: product.id, name: product.name, price: product.price, quantity: 1 }];
     });
+    toast.success("Produk ditambahkan ke keranjang");
+  };
+
+  const updateQuantity = (id: number, change: number) => {
+    setCart(prevCart =>
+      prevCart.map(item =>
+        item.id === id
+          ? { ...item, quantity: Math.max(0, item.quantity + change) }
+          : item
+      ).filter(item => item.quantity > 0)
+    );
+  };
+
+  const removeFromCart = (id: number) => {
+    setCart(prevCart => prevCart.filter(item => item.id !== id));
+    toast.success("Produk dihapus dari keranjang");
+  };
+
+  const getTotalPrice = () => {
+    return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
   };
 
   const formatPrice = (price: number) => {
@@ -230,10 +253,28 @@ export default function ProductCatalog() {
     }).format(price);
   };
 
+  const handleCheckout = () => {
+    const message = `Halo, saya ingin memesan:%0A%0A${cart
+      .map(item => `${item.name} (${item.quantity}x) - ${formatPrice(item.price * item.quantity)}`)
+      .join('%0A')}%0A%0ATotal: ${formatPrice(getTotalPrice())}%0A%0ATerima kasih!`;
+    
+    window.open(`https://wa.me/6289519128492?text=${message}`, '_blank');
+  };
+
+  const toggleBrand = (brandName: string) => {
+    setSelectedBrands((prev) => {
+      if (prev.includes(brandName)) {
+        return prev.filter((b) => b !== brandName);
+      } else {
+        return [...prev, brandName];
+      }
+    });
+  };
+
   const resetFilters = () => {
     setSearchQuery("");
     setSelectedCategory("");
-    setSelectedRestaurants([]);
+    setSelectedBrands([]);
     setSortBy("popularity");
   };
 
@@ -284,20 +325,20 @@ export default function ProductCatalog() {
           <Separator />
 
           <div>
-            <h3 className="font-medium mb-4">Restoran</h3>
+            <h3 className="font-medium mb-4">Brand</h3>
             <div className="space-y-2">
-              {restaurants.map((restaurant) => (
-                <div key={restaurant.id} className="flex items-center space-x-2">
+              {brands.map((brand) => (
+                <div key={brand.id} className="flex items-center space-x-2">
                   <Checkbox
-                    id={restaurant.id}
-                    checked={selectedRestaurants.includes(restaurant.name)}
-                    onCheckedChange={() => toggleRestaurant(restaurant.name)}
+                    id={brand.id}
+                    checked={selectedBrands.includes(brand.name)}
+                    onCheckedChange={() => toggleBrand(brand.name)}
                   />
                   <label
-                    htmlFor={restaurant.id}
+                    htmlFor={brand.id}
                     className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   >
-                    {restaurant.name}
+                    {brand.name}
                   </label>
                 </div>
               ))}
@@ -313,12 +354,11 @@ export default function ProductCatalog() {
 
         {/* Main Content */}
         <div className="flex-1">
-          {/* Search and Sort */}
           <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between mb-8">
             <div className="relative w-full md:w-96">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
-                placeholder="Cari menu..."
+                placeholder="Cari furniture..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-10"
@@ -326,6 +366,93 @@ export default function ProductCatalog() {
             </div>
             
             <div className="flex items-center gap-4 w-full md:w-auto">
+              <Sheet open={isCartOpen} onOpenChange={setIsCartOpen}>
+                <SheetTrigger asChild>
+                  <Button variant="outline" size="sm" className="relative">
+                    <ShoppingCart className="h-4 w-4 mr-2" />
+                    Keranjang
+                    {cart.length > 0 && (
+                      <span className="absolute -top-2 -right-2 bg-primary text-primary-foreground rounded-full w-5 h-5 text-xs flex items-center justify-center">
+                        {cart.length}
+                      </span>
+                    )}
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="right" className="w-full sm:w-[400px]">
+                  <SheetHeader>
+                    <SheetTitle>Keranjang Belanja</SheetTitle>
+                    <SheetDescription>
+                      {cart.length === 0 ? "Keranjang belanja Anda kosong" : `${cart.length} item dalam keranjang`}
+                    </SheetDescription>
+                  </SheetHeader>
+                  
+                  <div className="mt-8 space-y-6">
+                    <AnimatePresence>
+                      {cart.map((item) => (
+                        <motion.div
+                          key={item.id}
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          exit={{ opacity: 0, height: 0 }}
+                          className="flex items-center justify-between gap-4 pb-4 border-b"
+                        >
+                          <div>
+                            <h4 className="font-medium">{item.name}</h4>
+                            <p className="text-sm text-muted-foreground">
+                              {formatPrice(item.price)} x {item.quantity}
+                            </p>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Button
+                              variant="outline"
+                              size="icon"
+                              className="h-8 w-8"
+                              onClick={() => updateQuantity(item.id, -1)}
+                            >
+                              <Minus className="h-4 w-4" />
+                            </Button>
+                            <span className="w-8 text-center">{item.quantity}</span>
+                            <Button
+                              variant="outline"
+                              size="icon"
+                              className="h-8 w-8"
+                              onClick={() => updateQuantity(item.id, 1)}
+                            >
+                              <Plus className="h-4 w-4" />
+                            </Button>
+                            <Button
+                              variant="destructive"
+                              size="icon"
+                              className="h-8 w-8"
+                              onClick={() => removeFromCart(item.id)}
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </motion.div>
+                      ))}
+                    </AnimatePresence>
+
+                    {cart.length > 0 && (
+                      <div className="space-y-4">
+                        <Separator />
+                        <div className="flex justify-between text-lg font-bold">
+                          <span>Total</span>
+                          <span>{formatPrice(getTotalPrice())}</span>
+                        </div>
+                        <Button
+                          className="w-full"
+                          size="lg"
+                          onClick={handleCheckout}
+                        >
+                          Pesan via WhatsApp
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                </SheetContent>
+              </Sheet>
+
               {/* Mobile Filter Button */}
               <Sheet>
                 <SheetTrigger asChild>
@@ -338,7 +465,7 @@ export default function ProductCatalog() {
                   <SheetHeader>
                     <SheetTitle>Filter</SheetTitle>
                     <SheetDescription>
-                      Pilih filter untuk menemukan menu yang sesuai.
+                      Pilih filter untuk menemukan furniture yang sesuai.
                     </SheetDescription>
                   </SheetHeader>
                   <div className="py-4 space-y-8">
@@ -364,20 +491,20 @@ export default function ProductCatalog() {
                     <Separator />
 
                     <div>
-                      <h3 className="font-medium mb-4">Restoran</h3>
+                      <h3 className="font-medium mb-4">Brand</h3>
                       <div className="space-y-2">
-                        {restaurants.map((restaurant) => (
-                          <div key={restaurant.id} className="flex items-center space-x-2">
+                        {brands.map((brand) => (
+                          <div key={brand.id} className="flex items-center space-x-2">
                             <Checkbox
-                              id={`mobile-${restaurant.id}`}
-                              checked={selectedRestaurants.includes(restaurant.name)}
-                              onCheckedChange={() => toggleRestaurant(restaurant.name)}
+                              id={`mobile-${brand.id}`}
+                              checked={selectedBrands.includes(brand.name)}
+                              onCheckedChange={() => toggleBrand(brand.name)}
                             />
                             <label
-                              htmlFor={`mobile-${restaurant.id}`}
+                              htmlFor={`mobile-${brand.id}`}
                               className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                             >
-                              {restaurant.name}
+                              {brand.name}
                             </label>
                           </div>
                         ))}
@@ -418,7 +545,7 @@ export default function ProductCatalog() {
               {searchQuery && ` dengan kata kunci "${searchQuery}"`}
             </p>
             
-            {(selectedCategory || searchQuery || selectedRestaurants.length > 0) && (
+            {(selectedCategory || searchQuery || selectedBrands.length > 0) && (
               <Button variant="ghost" size="sm" onClick={resetFilters}>
                 Hapus Filter
               </Button>
@@ -449,7 +576,7 @@ export default function ProductCatalog() {
                 <div className="text-center py-12">
                   <h3 className="text-lg font-medium mb-2">Tidak ada hasil yang ditemukan</h3>
                   <p className="text-muted-foreground mb-6">
-                    Tidak ada menu yang sesuai dengan filter yang dipilih.
+                    Tidak ada furniture yang sesuai dengan filter yang dipilih.
                   </p>
                   <Button onClick={resetFilters}>Reset Filter</Button>
                 </div>
@@ -490,7 +617,7 @@ export default function ProductCatalog() {
                             {product.name}
                           </h3>
                           <p className="text-xs text-muted-foreground mb-2">
-                            {product.restaurant}
+                            {product.brand}
                           </p>
                           <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
                             {product.description}
@@ -498,8 +625,12 @@ export default function ProductCatalog() {
                         </CardContent>
                         <CardFooter className="flex justify-between items-center">
                           <span className="font-bold">{formatPrice(product.price)}</span>
-                          <Button size="sm" variant="default">
-                            <Plus className="h-4 w-4 mr-1" /> Tambah
+                          <Button
+                            size="sm"
+                            variant="default"
+                            onClick={() => addToCart(product)}
+                          >
+                            <Plus className="h-4 w-4 mr-1" /> Keranjang
                           </Button>
                         </CardFooter>
                       </Card>

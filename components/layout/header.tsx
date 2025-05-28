@@ -92,14 +92,6 @@ export default function Header() {
       </div>
 
       {/* Mobile Menu */}
-      <div
-        className={cn(
-          "md:hidden fixed inset-x-0 top-[64px] bg-background/95 backdrop-blur-md shadow-md transition-transform duration-300 ease-in-out z-40",
-          isMobileMenuOpen
-            ? "translate-y-0 opacity-100 pointer-events-auto"
-            : "-translate-y-full opacity-0 pointer-events-none"
-        )}
-      >
         <nav className="container mx-auto px-4 py-4 flex flex-col space-y-2">
           <Link
             href="/"
